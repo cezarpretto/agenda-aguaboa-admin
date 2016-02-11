@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/skin-blue.min.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="agendaabAdminApp" class="hold-transition skin-blue sidebar-mini" ng-class="{'sidebar-collapse': showMenu === false}" ng-controller="AppCtrl">
+    <div growl></div>
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="wrapper">
+      <header class="main-header">
+
+        <!-- Logo -->
+        <a href="#/" class="logo">
+          <span class="logo-mini"><b>A</b>AB</span>
+          <span class="logo-lg"><b>Agenda</b> Água Boa</span>
+        </a>
+
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button" ng-show="showMenu">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <!-- Navbar Right Menu -->
+          <div class="navbar-custom-menu" ng-show="showMenu">
+            <ul class="nav navbar-nav">
+              <!-- Notifications: style can be found in dropdown.less -->
+              <li class="dropdown notifications-menu">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bell-o"></i>
+                  <span class="label label-danger">{{correcoes.length + sugestoes.length}}</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="header">Você tem {{correcoes.length + sugestoes.length}} notificações.</li>
+                  <li>
+                    <!-- inner menu: contains the actual data -->
+                    <ul class="menu">
+                      <li ng-if="correcoes.length > 0">
+                        <a href="">
+                          <i class="fa fa-pencil text-red"></i> {{correcoes.length}} novas correções.
+                        </a>
+                      </li>
+                      <li ng-if="sugestoes.length > 0">
+                        <a href="">
+                          <i class="fa fa-info text-red"></i> {{sugestoes.length}} novas sugestões.
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="images/yeoman.png" class="user-image" alt="User Image">
+                  <span class="hidden-xs"><span ng-bind="usuario.nome"></span></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="images/yeoman.png" class="img-circle" alt="User Image">
+                    <p>
+                      <span ng-bind="usuario.nome"></span>
+                      <!-- <small>Cadastrado desde Novembro de 2015</small> -->
+                    </p>
+                  </li>
+                  <!-- Menu Body -->
+                  <!-- <li class="user-body">
+                    <div class="col-xs-4 text-center">
+                      <a href="">Followers</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="">Sales</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="">Friends</a>
+                    </div>
+                  </li> -->
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <!-- <div class="pull-left">
+                      <a href="" class="btn btn-default btn-flat">Profile</a>
+                    </div> -->
+                    <div class="pull-right">
+                      <a href="" class="btn btn-default btn-flat" ng-click="logout()"><i class="fa fa-sign-out"></i> Sair</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!-- Control Sidebar Toggle Button -->
+              <!-- <li>
+                <a href="" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+              </li> -->
+            </ul>
+          </div>
+
+        </nav>
+      </header>
+
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar" ng-show="showMenu">
+          <!-- Sidebar user panel -->
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="images/yeoman.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p><span ng-bind="usuario.nome"></span></p>
+              <a href=""><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>
+          <!-- search form -->
+          <!-- <form action="" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Pesquisar...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form> -->
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" filter-menu>
+            <!-- <li class="header">Minhas pastas</li> -->
+            <li class="treeview" ng-class="menuClass">
+              <a href="">
+                <i class="fa fa-folder"></i> <span>Menu</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#/correcoes"><i class="fa fa-pencil"></i> Correções</a></li>
+                <li><a href="#/sugestoes"><i class="fa fa-info"></i> Sugestões</a></li>
+              </ul>
+
+            </li>
+            <!-- <li class="treeview">
+              <a href="">
+                <i class="fa fa-file"></i> <span>Arquivos Digitais</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#/"><i class="fa fa-folder"></i> EFD ICMS/IPI</a></li>
+                <li><a href="#/"><i class="fa fa-folder"></i> EFD Contribuições</a></li>
+                <li><a href="#/"><i class="fa fa-folder"></i> EFD Contábil</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="">
+                <i class="fa fa-gears"></i> <span>Configurações</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#/trocarSenha"><i class="fa fa-key"></i> Trocar Senha</a></li>
+                <li><a href="" ng-click="logout()"><i class="fa fa-sign-out"></i> Sair</a></li>
+              </ul>
+            </li> -->
+            <!-- <li class="header">LABELS</li>
+            <li><a href=""><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
+            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
+            <li><a href=""><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li> -->
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+      <div class="content-wrapper">
+      <div ng-view=""></div>
+      </div>
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Versão</b> 0.0.1
+        </div>
+        <strong>Copyright &copy; 2015 <a href="http://almsaeedstudio.com">BDNS</a>.</strong> All rights reserved.
+      </footer>
+
+      <!-- <aside class="control-sidebar control-sidebar-dark">
+        <div class="tab-content">
+          <h3 class="control-sidebar-heading">Opções</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="#/login">
+                <i class="menu-icon fa fa-key bg-green"></i>
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Alterar Senha</h4>
+                  <p>Clique para alterar sua senha</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside> -->
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+    </div>
+
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/AdminLTE/dist/js/app.min.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/app.js"></script>
+        <script src="scripts/controllers/correcoes.js"></script>
+        <script src="scripts/controllers/sugestoes.js"></script>
+        <!-- endbuild -->
+</body>
+</html>
