@@ -1,0 +1,114 @@
+<section class="content-header">
+  <h1>
+    Lista Completa
+    <small>Agenda Água Boa</small>
+  </h1>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="box">
+      <div class="box-body">
+        <div class="col-sm-6">
+          <form ng-submit="pesquisar()">
+            <div class="form-group">
+              <label for="txtPesquisa">Pesquisa:</label>
+              <input type="text" autocomplete="off" class="form-control" id="txtPesquisa" placeholder="Digite o número ou nome" ng-model="query" required="required" ng-disabled="disableBusca">
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-3" style="padding-top: 24px">
+          <button type="button" class="btn btn-success btn-block" ng-click="novo()">
+            NOVO
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>Atualmente contamos com {{tels.length}} telefones. E cada vez aumentando mais!</p>
+    </div>
+  </div>
+  <div class="row" ng-if="isNew">
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel panel-heading">
+          Novo Telefone
+          <button href="" class="text-danger pull-right" ng-click="cancelar()">
+            <i class="fa fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Nome</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="newTelefone.nome">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Telefone</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="newTelefone.telefone" mask="(99) 9?9999-9999">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="panel-footer">
+          <button type="submit" class="btn btn-primary btn-sm" ng-click="salvar()">
+            <i class="fa fa-save"></i> Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4" ng-repeat="t in telefones">
+      <div class="panel panel-info">
+        <div class="panel-heading clearfix">
+          <button class="btn btn-primary btn-xs" ng-click="selecionaTelefone(t)" ng-if="t.editar === false">
+            <i class="fa fa-pencil"></i> Editar
+          </button>
+          <button class="btn btn-warning btn-xs" ng-click="t.editar = !t.editar" ng-if="t.editar">
+            <i class="fa fa-times"></i> Cancelar
+          </button>
+          <button class="btn btn-danger btn-xs" ng-click="delete(t)">
+            <i class="fa fa-trash-o"></i> Excluir
+          </button>
+        </div>
+        <div class="list-group" ng-if="!t.editar">
+          <div class="list-group-item">
+            <p class="list-group-item-text">Nome</p>
+            <h4 class="list-group-item-heading">{{t.nome}}</h4>
+          </div>
+          <div class="list-group-item">
+            <p class="list-group-item-text">Telefone</p>
+            <h4 class="list-group-item-heading">{{t.telefone}}</h4>
+          </div>
+        </div>
+        <div class="modal-body" ng-if="t.editar">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Nome</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="t.nome">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label">Telefone</label>
+              <div class="col-xs-9">
+                <input type="text" class="form-control" ng-model="t.telefone" mask="(99) 9?9999-9999">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="panel-footer" ng-if="t.editar === true">
+          <button type="submit" class="btn btn-primary btn-sm" ng-click="update(t)">
+            <i class="fa fa-save"></i> Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>

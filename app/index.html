@@ -1,8 +1,9 @@
 <!doctype html>
-<html>
+<html ng-app="agendaabAdminApp" ng-controller="AppCtrl">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title ng-if="hasNotification === false">Agenda Água Boa - ADMIN</title>
+    <title ng-if="hasNotification">({{correcoes.length + sugestoes.length}}) Agenda Água Boa - ADMIN</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -12,13 +13,15 @@
     <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/AdminLTE.min.css" />
     <link rel="stylesheet" href="bower_components/AdminLTE/dist/css/skins/skin-blue.min.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="bower_components/bootcards/dist/css/bootcards-desktop.css" />
+    <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="agendaabAdminApp" class="hold-transition skin-blue sidebar-mini" ng-class="{'sidebar-collapse': showMenu === false}" ng-controller="AppCtrl">
+  <body ng-app="agendaabAdminApp" class="hold-transition skin-blue sidebar-mini" ng-class="{'sidebar-collapse': showMenu === false}">
     <div growl></div>
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -148,6 +151,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="#/correcoes"><i class="fa fa-pencil"></i> Correções</a></li>
+                <li><a href="#/lista"><i class="fa fa-list"></i> Lista Completa</a></li>
                 <li><a href="#/sugestoes"><i class="fa fa-info"></i> Sugestões</a></li>
               </ul>
 
@@ -188,7 +192,7 @@
         <div class="pull-right hidden-xs">
           <b>Versão</b> 0.0.1
         </div>
-        <strong>Copyright &copy; 2015 <a href="http://almsaeedstudio.com">BDNS</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; {{ano}} <a href="http://cp3w.com.br">cp3w</a>.</strong> All rights reserved.
       </footer>
 
       <!-- <aside class="control-sidebar control-sidebar-dark">
@@ -239,6 +243,11 @@
     <script src="bower_components/AdminLTE/dist/js/app.min.js"></script>
     <script src="bower_components/firebase/firebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/bootcards/dist/js/bootcards.js"></script>
+    <script src="bower_components/ngMask/dist/ngMask.js"></script>
+    <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
+    <script src="bower_components/angular-notification/angular-notification.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -249,6 +258,8 @@
         <script src="scripts/controllers/app.js"></script>
         <script src="scripts/controllers/correcoes.js"></script>
         <script src="scripts/controllers/sugestoes.js"></script>
+        <script src="scripts/controllers/lista.js"></script>
+        <script src="scripts/services/telefoneservice.js"></script>
         <!-- endbuild -->
 </body>
 </html>

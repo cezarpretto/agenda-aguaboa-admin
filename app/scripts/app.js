@@ -16,7 +16,10 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase'
+    'firebase',
+    'ngMask',
+    'angular-growl',
+    'notification'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -39,6 +42,11 @@ angular
         templateUrl: 'views/sugestoes.html',
         controller: 'SugestoesCtrl',
         controllerAs: 'sugestoes'
+      })
+      .when('/lista', {
+        templateUrl: 'views/lista.html',
+        controller: 'ListaCtrl',
+        controllerAs: 'lista'
       })
       .otherwise({
         redirectTo: '/'
